@@ -164,8 +164,8 @@ func main() {
 		common.SysLog(fmt.Sprintf("panic detected: %v", err))
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": gin.H{
-				"message": fmt.Sprintf("Panic detected, error: %v. Please submit a issue here: https://github.com/Calcium-Ion/new-api", err),
-				"type":    "new_api_panic",
+				"message": fmt.Sprintf("Internal server error: %v. Please contact support.", err),
+				"type":    "internal_error",
 			},
 		})
 	}))
@@ -224,7 +224,7 @@ func InjectUmamiAnalytics() {
 		analyticsInjectBuilder.WriteString(umamiSiteID)
 		analyticsInjectBuilder.WriteString("\"></script>")
 	}
-	analyticsInjectBuilder.WriteString("<!--Umami QuantumNous-->\n")
+	analyticsInjectBuilder.WriteString("<!--analytics-->\n")
 	analyticsInject := []byte(analyticsInjectBuilder.String())
 	placeholder := []byte("<!--umami-->\n")
 	indexPage = bytes.ReplaceAll(indexPage, placeholder, analyticsInject)
@@ -248,7 +248,7 @@ func InjectGoogleAnalytics() {
 		analyticsInjectBuilder.WriteString("');")
 		analyticsInjectBuilder.WriteString("</script>")
 	}
-	analyticsInjectBuilder.WriteString("<!--Google Analytics QuantumNous-->\n")
+	analyticsInjectBuilder.WriteString("<!--ga-->\n")
 	analyticsInject := []byte(analyticsInjectBuilder.String())
 	placeholder := []byte("<!--Google Analytics-->\n")
 	indexPage = bytes.ReplaceAll(indexPage, placeholder, analyticsInject)
